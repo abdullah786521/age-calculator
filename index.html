@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Age Calculator</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Find Your Age</h1>
+        <input type="date" id="dob" placeholder="Enter your date of birth" />
+        <button id="calculate">Calculate</button>
+        <div id="result" class="result hidden"></div>
+    </div>
+    <script >document.getElementById('calculate').addEventListener('click', function() {
+        const dobInput = document.getElementById('dob').value;
+        if (!dobInput) {
+            alert("Please enter your date of birth.");
+            return;
+        }
+    
+        let dob = new Date(dobInput);
+        let today = new Date();
+    
+        // Calculate current age
+        let age = today.getFullYear() - dob.getFullYear();
+        const monthDifference = today.getMonth() - dob.getMonth();
+        if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < dob.getDate())) {
+            age--;
+        }
+    
+        // Calculate next birthday
+        let nextBirthday = new Date(today.getFullYear(), dob.getMonth(), dob.getDate());
+        if (nextBirthday < today) {
+            nextBirthday.setFullYear(today.getFullYear() + 1);
+        }
+    
+        const timeDiff = nextBirthday - today;
+        const daysRemaining = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+    
+        const resultDiv = document.getElementById('result');
+        resultDiv.className = 'result show';
+        resultDiv.innerHTML = `You are currently <strong>${age}</strong> years old.<br>
+                               Days remaining until your next birthday: <strong>${daysRemaining}</strong>`;
+    
+        // Randomize the background color for the result div
+        const colors = ['color1', 'color2', 'color3'];
+        resultDiv.classList.add(colors[Math.floor(Math.random() * colors.length)]);
+    });
+    </script>
+</body>
+</html>
